@@ -94,3 +94,16 @@ export const assertCoinExists = async (id) => {
   if (!coin) throw ApiError.notFound(`Coin '${id}' not found`);
   return coin;
 };
+
+// Exchange rates between supported currencies, derived from Bitcoin's price
+export const getExchangeRates = async (currencies) => {
+  const prices = await getSimplePrice({ ids: ["bitcoin"], currencies });
+  const btc = prices.bitcoin || {};
+  return (from, to) => {
+    if (from === to) return 1;
+    if (!btc[from] || !btc[to]) {
+      throw new ApiError(502, `Exchange rate unavailable for ${from} to ${to}`);
+    }
+    return btc[to] / btc[from];
+  };
+};
