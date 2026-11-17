@@ -4,6 +4,7 @@ import { Link, useParams } from "react-router-dom";
 import { CoinContext } from "../../context/CoinContext";
 import LineChart from "../../components/LineChart/LineChart";
 import api from "../../api/client";
+import WatchButton from "../../components/WatchButton/WatchButton";
 
 const Coin = () => {
   const { coinId } = useParams();
@@ -53,6 +54,7 @@ const Coin = () => {
             {coinData.name} ({coinData.symbol.toUpperCase()})
           </b>
         </p>
+        <WatchButton coinId={coinData.id} withLabel />
       </div>
       <div className="coin-chart">
         <LineChart historicalData={historicalData} />

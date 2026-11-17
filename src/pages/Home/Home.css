@@ -89,6 +89,10 @@
   gap: 10px;
 }
 
+.table-layout .rank-cell{
+  gap: 8px;
+}
+
 .table-layout div img{
   width: 35px;
 }
@@ -114,7 +118,11 @@
 }
 
 @media(max-width: 500px){
-  .table-layout div img{
+  .table-layout .rank-cell{
+  gap: 8px;
+}
+
+.table-layout div img{
   width: 25px;
   }
   .table-layout{

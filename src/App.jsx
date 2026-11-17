@@ -6,6 +6,8 @@ import Coin from './pages/Coin/Coin';
 import Footer from './components/Footer/Footer';
 import Login from './pages/Auth/Login';
 import Signup from './pages/Auth/Signup';
+import Watchlist from './pages/Watchlist/Watchlist';
+import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const App = () => {
   return (
@@ -16,6 +18,7 @@ const App = () => {
         <Route path='/coin/:coinId' element={<Coin/>}></Route>
         <Route path='/login' element={<Login/>}></Route>
         <Route path='/signup' element={<Signup/>}></Route>
+        <Route path='/watchlist' element={<ProtectedRoute><Watchlist/></ProtectedRoute>}></Route>
       </Routes>
       <Footer/>
     </div>

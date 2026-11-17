@@ -1,0 +1,36 @@
+.watch-button{
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 2px;
+  border: none;
+  background: transparent;
+  color: #ddd;
+  cursor: pointer;
+}
+
+.watch-button svg path{
+  fill: transparent;
+  stroke: #8f8f8f;
+  transition: fill 0.15s, stroke 0.15s;
+}
+
+.watch-button:hover svg path{
+  stroke: #ffc531;
+}
+
+.watch-button.watched svg path{
+  fill: #ffc531;
+  stroke: #ffc531;
+}
+
+.watch-button.with-label{
+  padding: 8px 18px;
+  border: 1px solid #5f5d5f;
+  border-radius: 20px;
+  font-size: 14px;
+}
+
+.watch-button.with-label.watched{
+  border-color: #ffc531;
+}

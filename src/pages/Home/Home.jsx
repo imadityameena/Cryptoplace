@@ -2,6 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import "./Home.css";
 import { CoinContext } from "../../context/CoinContext";
 import { Link } from "react-router-dom";
+import WatchButton from "../../components/WatchButton/WatchButton";
 
 const Home = () => {
   const { allCoin, loading, error, currency } = useContext(CoinContext);
@@ -61,9 +62,12 @@ const Home = () => {
         {!loading && !error && displayCoin.length === 0 && (
           <p className="table-message">No coins found</p>
         )}
-        {!loading && displayCoin.slice(0,10).map((item, i) => (
-          <Link to={`/coin/${item.id}`} className="table-layout" key={i}>
-          <p>{item.market_cap_rank}</p>
+        {!loading && displayCoin.slice(0,10).map((item) => (
+          <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
+          <div className="rank-cell">
+            <WatchButton coinId={item.id} size={18} />
+            <p>{item.market_cap_rank}</p>
+          </div>
           <div>
             <img src={item.image} alt="" />
             <p>{item.name + "- " + item.symbol}</p>
