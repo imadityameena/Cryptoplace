@@ -9,6 +9,7 @@ import Signup from './pages/Auth/Signup';
 import Watchlist from './pages/Watchlist/Watchlist';
 import Portfolio from './pages/Portfolio/Portfolio';
 import Alerts from './pages/Alerts/Alerts';
+import Account from './pages/Account/Account';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const App = () => {
@@ -23,6 +24,7 @@ const App = () => {
         <Route path='/watchlist' element={<ProtectedRoute><Watchlist/></ProtectedRoute>}></Route>
         <Route path='/portfolio' element={<ProtectedRoute><Portfolio/></ProtectedRoute>}></Route>
         <Route path='/alerts' element={<ProtectedRoute><Alerts/></ProtectedRoute>}></Route>
+        <Route path='/account' element={<ProtectedRoute><Account/></ProtectedRoute>}></Route>
       </Routes>
       <Footer/>
     </div>

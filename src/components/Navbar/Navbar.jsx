@@ -57,7 +57,9 @@ const Navbar = () => {
         </select>
         {user ? (
           <>
-            <span className='nav-user'>Hi, {user.name.split(' ')[0]}</span>
+            <Link to='/account' className='nav-user' title='Account settings'>
+              Hi, {user.name.split(' ')[0]}
+            </Link>
             <button onClick={logoutHandler}>Log out</button>
           </>
         ) : (
