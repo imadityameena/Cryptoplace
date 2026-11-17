@@ -1,12 +1,40 @@
-# React + Vite
+# Cryptoplace
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A cryptocurrency marketplace app for browsing live prices, viewing coin charts, and tracking a personal watchlist, portfolio and price alerts.
 
-Currently, two official plugins are available:
+## Tech stack
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **Frontend:** React, Vite, React Router, Google Charts
+- **Backend:** Node.js, Express, MongoDB (Mongoose), JWT authentication
+- **Market data:** CoinGecko API
 
-## Expanding the ESLint configuration
+## Project structure
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```
+Cryptoplace/
+  src/        React frontend
+  public/     static assets
+  server/     Express REST API (see server/README.md)
+```
+
+## Running locally
+
+### Frontend
+
+```bash
+npm install
+npm run dev
+```
+
+Opens at `http://localhost:5173`.
+
+### Backend
+
+```bash
+cd server
+npm install
+cp .env.example .env
+npm run dev
+```
+
+Runs at `http://localhost:5000/api`. See [server/README.md](server/README.md) for configuration and the full API reference.
