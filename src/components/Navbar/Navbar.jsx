@@ -1,4 +1,4 @@
-import { useContext } from 'react'
+import { useContext, useState } from 'react'
 import "./Navbar.css"
 import logo from "../../assets/logo.png"
 import arrow_icon from "../../assets/arrow_icon.png"
@@ -6,13 +6,19 @@ import { CoinContext } from '../../context/CoinContext'
 import { AuthContext } from '../../context/AuthContext'
 import { AlertsContext } from '../../context/AlertsContext'
 import { CURRENCIES } from '../../constants'
-import { Link, NavLink, useNavigate } from 'react-router-dom'
+import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CoinContext);
   const { user, logout, updateProfile } = useContext(AuthContext);
   const { triggeredCount } = useContext(AlertsContext);
   const navigate = useNavigate();
+  const location = useLocation();
+  const [menu, setMenu] = useState({ open: false, path: location.pathname });
+
+  // Close the mobile menu whenever the route changes
+  const menuOpen = menu.open && menu.path === location.pathname;
+  const toggleMenu = () => setMenu({ open: !menuOpen, path: location.pathname });
 
   const currencyHandler = (event) => {
     const next = CURRENCIES[event.target.value] || CURRENCIES.usd;
@@ -30,7 +36,7 @@ const Navbar = () => {
   return (
     <div className='navbar'>
       <Link to='/'><img src={logo} alt="Cryptoplace" className='logo' /></Link>
-      <ul>
+      <ul className={menuOpen ? 'open' : ''}>
         <NavLink to='/' end><li>Home</li></NavLink>
         {user && (
           <>
@@ -46,11 +52,12 @@ const Navbar = () => {
                 )}
               </li>
             </NavLink>
+            <NavLink to='/account' className='mobile-only'><li>Account</li></NavLink>
           </>
         )}
       </ul>
       <div className='nav-right'>
-        <select value={currency.name} onChange={currencyHandler}>
+        <select value={currency.name} onChange={currencyHandler} aria-label='Currency'>
           <option value="usd">USD</option>
           <option value="eur">EUR</option>
           <option value="inr">INR</option>
@@ -69,6 +76,17 @@ const Navbar = () => {
               <button>Sign up<img src={arrow_icon} alt="" /></button>
             </Link>
           </>
+        )}
+        {user && (
+          <button
+            className='menu-toggle'
+            onClick={toggleMenu}
+            aria-label='Toggle menu'
+            aria-expanded={menuOpen}
+          >
+            {menuOpen ? '✕' : '☰'}
+            {!menuOpen && triggeredCount > 0 && <span className='menu-dot'></span>}
+          </button>
         )}
       </div>
     </div>

@@ -1,4 +1,5 @@
 .navbar{
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -69,12 +70,55 @@
   }
 }
 
+.navbar .menu-toggle,
+.navbar .mobile-only{
+  display: none;
+}
+
 @media(max-width: 768px){
   .navbar{
     padding: 20px 5%;
   }
   .navbar ul{
     display: none;
+  }
+  .navbar ul.open{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    z-index: 10;
+    background: #120a3a;
+    border-bottom: 2px solid #3c3c3c;
+  }
+  .navbar ul.open li{
+    padding: 14px 5%;
+    border-top: 1px solid #2a2350;
+  }
+  .navbar .mobile-only{
+    display: block;
+  }
+  .navbar .menu-toggle{
+    position: relative;
+    display: flex;
+    padding: 8px 12px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid #5f5d5f;
+    color: white;
+    font-size: 16px;
+  }
+  .menu-dot{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffc531;
   }
   .navbar button img{
     width: 12px;

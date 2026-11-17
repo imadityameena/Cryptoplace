@@ -10,6 +10,7 @@ import Watchlist from './pages/Watchlist/Watchlist';
 import Portfolio from './pages/Portfolio/Portfolio';
 import Alerts from './pages/Alerts/Alerts';
 import Account from './pages/Account/Account';
+import NotFound from './pages/NotFound/NotFound';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 
 const App = () => {
@@ -25,6 +26,7 @@ const App = () => {
         <Route path='/portfolio' element={<ProtectedRoute><Portfolio/></ProtectedRoute>}></Route>
         <Route path='/alerts' element={<ProtectedRoute><Alerts/></ProtectedRoute>}></Route>
         <Route path='/account' element={<ProtectedRoute><Account/></ProtectedRoute>}></Route>
+        <Route path='*' element={<NotFound/>}></Route>
       </Routes>
       <Footer/>
     </div>

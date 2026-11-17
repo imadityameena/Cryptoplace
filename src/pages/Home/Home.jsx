@@ -3,9 +3,11 @@ import "./Home.css";
 import { CoinContext } from "../../context/CoinContext";
 import { Link } from "react-router-dom";
 import WatchButton from "../../components/WatchButton/WatchButton";
+import { AuthContext } from "../../context/AuthContext";
 
 const Home = () => {
   const { allCoin, loading, error, currency } = useContext(CoinContext);
+  const { user } = useContext(AuthContext);
   const [displayCoin, setDisplayCoin] = useState([]);
   const [input, setInput] = useState('');
 
@@ -36,8 +38,9 @@ const Home = () => {
           Crypto Marketplace
         </h1>
         <p>
-          Welcome to the world's largest cryptocurrency marketplace. Sign up to
-          explore more about cryptos.
+          {user
+            ? "Welcome back. Star coins to watch them, track your portfolio and set price alerts."
+            : "Welcome to the world's largest cryptocurrency marketplace. Sign up to explore more about cryptos."}
         </p>
         <form onSubmit={searchHandler}>
           <input onChange={inputHandler} list="coinlist" value={input} type="text" placeholder="Search crypto..." required />
