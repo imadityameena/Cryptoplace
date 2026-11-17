@@ -21,6 +21,7 @@ const env = {
   coingeckoBaseUrl:
     process.env.COINGECKO_BASE_URL || "https://api.coingecko.com/api/v3",
   cacheTtlSeconds: Number(process.env.CACHE_TTL_SECONDS) || 60,
+  alertCheckIntervalSeconds: Number(process.env.ALERT_CHECK_INTERVAL_SECONDS) || 120,
 };
 
 env.isProduction = env.nodeEnv === "production";

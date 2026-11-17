@@ -3,6 +3,7 @@ import marketRoutes from "./market.routes.js";
 import authRoutes from "./auth.routes.js";
 import watchlistRoutes from "./watchlist.routes.js";
 import portfolioRoutes from "./portfolio.routes.js";
+import alertRoutes from "./alert.routes.js";
 
 const router = Router();
 
@@ -14,5 +15,6 @@ router.use("/auth", authRoutes);
 router.use("/market", marketRoutes);
 router.use("/watchlist", watchlistRoutes);
 router.use("/portfolio", portfolioRoutes);
+router.use("/alerts", alertRoutes);
 
 export default router;

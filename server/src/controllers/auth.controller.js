@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import WatchlistItem from "../models/WatchlistItem.js";
 import Transaction from "../models/Transaction.js";
+import Alert from "../models/Alert.js";
 import ApiError from "../utils/ApiError.js";
 import { signToken } from "../utils/token.js";
 
@@ -64,6 +65,7 @@ export const deleteMe = async (req, res) => {
   await Promise.all([
     WatchlistItem.deleteMany({ user: req.user._id }),
     Transaction.deleteMany({ user: req.user._id }),
+    Alert.deleteMany({ user: req.user._id }),
   ]);
   await User.findByIdAndDelete(req.user._id);
   res.status(204).end();
