@@ -41,6 +41,7 @@ docker compose up --build
 | `JWT_SECRET` | Secret used to sign auth tokens | required |
 | `JWT_EXPIRES_IN` | Token lifetime | `7d` |
 | `CLIENT_URL` | Allowed CORS origin(s), comma separated | `http://localhost:5173` |
+| `GOOGLE_CLIENT_ID` | OAuth client ID for Google sign-in (empty disables it) | empty |
 | `COINGECKO_API_KEY` | CoinGecko demo API key | empty |
 | `COINGECKO_BASE_URL` | CoinGecko API base URL | `https://api.coingecko.com/api/v3` |
 | `CACHE_TTL_SECONDS` | How long market responses are cached | `60` |
@@ -100,12 +101,18 @@ Supported currencies: `usd`, `eur`, `inr`, `gbp`, `jpy`, `aud`, `cad`, `btc`, `e
 | --- | --- | --- | --- |
 | POST | `/api/auth/register` | | `name`, `email`, `password` |
 | POST | `/api/auth/login` | | `email`, `password` |
+| GET | `/api/auth/google/config` | | Returns the Google client ID, or `null` when disabled |
+| POST | `/api/auth/google` | | `credential` (Google ID token) |
 | GET | `/api/auth/me` | yes | |
 | PATCH | `/api/auth/me` | yes | `name?`, `preferredCurrency?` |
 | PATCH | `/api/auth/password` | yes | `currentPassword`, `newPassword` |
 | DELETE | `/api/auth/me` | yes | Deletes the account and all its data |
 
 Passwords must be 8-128 characters and contain at least one letter and one number. Changing the password signs out all other sessions.
+
+**Google sign-in:** the frontend gets an ID token from Google Identity Services and sends it to `/api/auth/google`. The server verifies it with Google, then logs in the linked account, links Google to an existing account with the same (verified) email, or creates a new account. Accounts created with Google have `hasPassword: false`; they can set a password with `PATCH /api/auth/password` without sending `currentPassword`.
+
+To enable it, create an OAuth client ID (type "Web application") in Google Cloud Console, add your frontend URL (e.g. `http://localhost:5173`) under **Authorized JavaScript origins**, and set `GOOGLE_CLIENT_ID`.
 
 Register and login return:
 
