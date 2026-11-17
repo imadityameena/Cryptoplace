@@ -6,7 +6,11 @@ import { startAlertChecker } from "./services/alertChecker.service.js";
 const start = async () => {
   await connectDB();
 
-  const server = app.listen(env.port, () => {
+  const server = app.listen(env.port, (err) => {
+    if (err) {
+      console.error(`Failed to start server: ${err.message}`);
+      process.exit(1);
+    }
     console.log(`Server running in ${env.nodeEnv} mode on port ${env.port}`);
   });
 
