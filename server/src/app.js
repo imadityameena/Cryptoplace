@@ -3,6 +3,7 @@ import cors from "cors";
 import helmet from "helmet";
 import morgan from "morgan";
 import env from "./config/env.js";
+import routes from "./routes/index.js";
 import { notFound, errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
@@ -20,9 +21,7 @@ if (!env.isProduction) {
   app.use(morgan("dev"));
 }
 
-app.get("/api/health", (req, res) => {
-  res.json({ success: true, status: "ok", uptime: process.uptime() });
-});
+app.use("/api", routes);
 
 app.use(notFound);
 app.use(errorHandler);
