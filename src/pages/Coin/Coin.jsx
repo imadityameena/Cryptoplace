@@ -59,6 +59,9 @@ const Coin = () => {
           <Link to={`/portfolio?add=${coinData.id}`} className="coin-action-link">
             + Add to portfolio
           </Link>
+          <Link to={`/alerts?add=${coinData.id}`} className="coin-action-link">
+            Set price alert
+          </Link>
         </div>
       </div>
       <div className="coin-chart">

@@ -1,0 +1,120 @@
+.filter-tabs{
+  display: flex;
+  gap: 8px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.filter-tabs button{
+  padding: 7px 18px;
+  border-radius: 20px;
+  border: 1px solid #5f5d5f;
+  background: transparent;
+  color: #ddd;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+.filter-tabs button.active{
+  background: #7927ff;
+  border-color: #7927ff;
+  color: white;
+}
+
+.alert-list{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.alert-list .table-message{
+  border-radius: 15px;
+  background: linear-gradient(rgba(84,3,255, 0.15), rgba(105,2,153, 0.15));
+}
+
+.alert-card{
+  display: grid;
+  grid-template-columns: 1.3fr 2fr 90px 120px;
+  align-items: center;
+  gap: 16px;
+  padding: 16px 20px;
+  border-radius: 12px;
+  background: linear-gradient(rgba(84,3,255, 0.15), rgba(105,2,153, 0.15));
+  border-left: 3px solid transparent;
+}
+
+.alert-card.triggered{
+  border-left-color: #ffc531;
+}
+
+.alert-card.paused{
+  opacity: 0.7;
+}
+
+.alert-coin{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.alert-coin img{
+  width: 30px;
+}
+
+.alert-coin small,
+.alert-rule small{
+  color: #a9a9a9;
+  font-size: 12px;
+}
+
+.alert-rule strong{
+  font-weight: 500;
+}
+
+.status-pill{
+  justify-self: start;
+  padding: 3px 12px;
+  border-radius: 10px;
+  font-size: 12px;
+  text-transform: capitalize;
+  background: rgba(255,255,255,0.08);
+  color: #ddd;
+}
+
+.status-pill.active{
+  background: rgba(0, 213, 21, 0.15);
+  color: #6fe87b;
+}
+
+.status-pill.triggered{
+  background: rgba(255, 197, 49, 0.15);
+  color: #ffc531;
+}
+
+.alert-actions{
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.btn-sm{
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+@media(max-width: 600px){
+  .alert-card{
+    grid-template-columns: 1fr auto;
+    gap: 12px;
+    padding: 14px;
+  }
+  .alert-rule{
+    grid-column: 1;
+    grid-row: 2;
+  }
+  .alert-actions{
+    grid-column: 2;
+    grid-row: 2;
+  }
+}

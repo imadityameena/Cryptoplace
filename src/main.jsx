@@ -6,6 +6,7 @@ import { BrowserRouter } from "react-router-dom";
 import CoinContextProvider from "./context/CoinContext.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import WatchlistContextProvider from "./context/WatchlistContext.jsx";
+import AlertsContextProvider from "./context/AlertsContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -13,7 +14,9 @@ createRoot(document.getElementById("root")).render(
       <AuthContextProvider>
         <CoinContextProvider>
           <WatchlistContextProvider>
-            <App />
+            <AlertsContextProvider>
+              <App />
+            </AlertsContextProvider>
           </WatchlistContextProvider>
         </CoinContextProvider>
       </AuthContextProvider>

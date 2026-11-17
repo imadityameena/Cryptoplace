@@ -4,12 +4,14 @@ import logo from "../../assets/logo.png"
 import arrow_icon from "../../assets/arrow_icon.png"
 import { CoinContext } from '../../context/CoinContext'
 import { AuthContext } from '../../context/AuthContext'
+import { AlertsContext } from '../../context/AlertsContext'
 import { CURRENCIES } from '../../constants'
 import { Link, NavLink, useNavigate } from 'react-router-dom'
 
 const Navbar = () => {
   const { currency, setCurrency } = useContext(CoinContext);
   const { user, logout, updateProfile } = useContext(AuthContext);
+  const { triggeredCount } = useContext(AlertsContext);
   const navigate = useNavigate();
 
   const currencyHandler = (event) => {
@@ -34,6 +36,16 @@ const Navbar = () => {
           <>
             <NavLink to='/watchlist'><li>Watchlist</li></NavLink>
             <NavLink to='/portfolio'><li>Portfolio</li></NavLink>
+            <NavLink to='/alerts'>
+              <li className='nav-alerts'>
+                Alerts
+                {triggeredCount > 0 && (
+                  <span className='nav-badge' aria-label={`${triggeredCount} triggered`}>
+                    {triggeredCount}
+                  </span>
+                )}
+              </li>
+            </NavLink>
           </>
         )}
       </ul>
