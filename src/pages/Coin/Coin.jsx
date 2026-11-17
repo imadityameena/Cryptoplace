@@ -54,7 +54,12 @@ const Coin = () => {
             {coinData.name} ({coinData.symbol.toUpperCase()})
           </b>
         </p>
-        <WatchButton coinId={coinData.id} withLabel />
+        <div className="coin-actions">
+          <WatchButton coinId={coinData.id} withLabel />
+          <Link to={`/portfolio?add=${coinData.id}`} className="coin-action-link">
+            + Add to portfolio
+          </Link>
+        </div>
       </div>
       <div className="coin-chart">
         <LineChart historicalData={historicalData} />

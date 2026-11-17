@@ -30,7 +30,12 @@ const Navbar = () => {
       <Link to='/'><img src={logo} alt="Cryptoplace" className='logo' /></Link>
       <ul>
         <NavLink to='/' end><li>Home</li></NavLink>
-        {user && <NavLink to='/watchlist'><li>Watchlist</li></NavLink>}
+        {user && (
+          <>
+            <NavLink to='/watchlist'><li>Watchlist</li></NavLink>
+            <NavLink to='/portfolio'><li>Portfolio</li></NavLink>
+          </>
+        )}
       </ul>
       <div className='nav-right'>
         <select value={currency.name} onChange={currencyHandler}>

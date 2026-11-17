@@ -1,0 +1,280 @@
+.content-width{
+  max-width: 800px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.page-header-row{
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.page-header-row > div{
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.btn-secondary{
+  border: 1px solid #5f5d5f;
+  background: transparent;
+  color: white;
+  font-size: 15px;
+  padding: 10px 22px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-secondary:disabled{
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.panel{
+  padding: 25px;
+  border-radius: 15px;
+  background: linear-gradient(rgba(84,3,255, 0.15), rgba(105,2,153, 0.15));
+  margin-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.panel h3{
+  font-weight: 500;
+  font-size: 20px;
+}
+
+.form-grid{
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.form-grid .span-2{
+  grid-column: span 2;
+}
+
+.form-actions{
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.type-toggle{
+  display: inline-flex;
+  align-self: flex-start;
+  border: 1px solid #5f5d5f;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.type-toggle button{
+  padding: 8px 28px;
+  border: none;
+  background: transparent;
+  color: #ddd;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.type-toggle button.active.buy{
+  background: rgba(0, 213, 21, 0.2);
+  color: #6fe87b;
+}
+
+.type-toggle button.active.sell{
+  background: rgba(255, 70, 70, 0.2);
+  color: #ff8a8a;
+}
+
+.stat-grid{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 40px;
+}
+
+.stat-card{
+  padding: 18px 20px;
+  border-radius: 12px;
+  background: linear-gradient(rgba(84,3,255, 0.15), rgba(105,2,153, 0.15));
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+}
+
+.stat-card span{
+  font-size: 13px;
+  color: #c9c9c9;
+}
+
+.stat-card strong{
+  font-size: 20px;
+  font-weight: 500;
+  overflow-wrap: anywhere;
+}
+
+.stat-card small{
+  font-size: 13px;
+}
+
+.green{
+  color: #00d515;
+}
+
+.red{
+  color: #ff4646;
+}
+
+.section-title{
+  font-size: 22px;
+  font-weight: 500;
+  margin-bottom: 14px;
+}
+
+.holdings-table,
+.tx-table{
+  margin-bottom: 40px;
+}
+
+.holdings-row,
+.tx-row{
+  display: grid;
+  align-items: center;
+  gap: 10px;
+  padding: 15px 20px;
+  border-bottom: 1px solid #3c3c3c;
+}
+
+.holdings-row{
+  grid-template-columns: 2fr 1.3fr 1.2fr 1.3fr 1.3fr 1.2fr;
+}
+
+.tx-row{
+  grid-template-columns: 1.1fr 0.8fr 1.2fr 1fr 1.2fr 1.3fr 30px;
+}
+
+.holdings-row:last-child,
+.tx-row:last-child{
+  border-bottom: none;
+}
+
+.holdings-row.header,
+.tx-row.header{
+  font-weight: 500;
+}
+
+.holdings-row small,
+.tx-row small{
+  color: #a9a9a9;
+  font-size: 12px;
+}
+
+.coin-cell{
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.coin-cell img{
+  width: 30px;
+}
+
+.pnl-cell small{
+  color: inherit !important;
+}
+
+.alloc-cell{
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.alloc-bar{
+  height: 6px;
+  border-radius: 3px;
+  background: rgba(255,255,255,0.1);
+  overflow: hidden;
+}
+
+.alloc-bar span{
+  display: block;
+  height: 100%;
+  background: #7927ff;
+}
+
+.tx-coin{
+  text-transform: capitalize;
+}
+
+.badge{
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 10px;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.badge.buy{
+  background: rgba(0, 213, 21, 0.15);
+  color: #6fe87b;
+}
+
+.badge.sell{
+  background: rgba(255, 70, 70, 0.15);
+  color: #ff8a8a;
+}
+
+.icon-button{
+  border: none;
+  background: transparent;
+  color: #8f8f8f;
+  font-size: 15px;
+  cursor: pointer;
+}
+
+.icon-button:hover{
+  color: #ff8a8a;
+}
+
+.pager{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  color: #c9c9c9;
+}
+
+@media(max-width: 768px){
+  .stat-grid{
+    grid-template-columns: 1fr 1fr;
+  }
+  .hide-sm{
+    display: none;
+  }
+  .holdings-row{
+    grid-template-columns: 2fr 1.3fr 1.3fr 1.3fr;
+    font-size: 14px;
+  }
+  .tx-row{
+    grid-template-columns: 1.1fr 0.9fr 1.2fr 1fr 1.2fr 24px;
+    font-size: 13px;
+  }
+}
+
+@media(max-width: 500px){
+  .form-grid{
+    grid-template-columns: 1fr;
+  }
+  .form-grid .span-2{
+    grid-column: span 1;
+  }
+  .holdings-row, .tx-row{
+    padding: 12px;
+  }
+}

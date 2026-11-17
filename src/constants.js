@@ -3,3 +3,6 @@ export const CURRENCIES = {
   eur: { name: "eur", symbol: "€" },
   inr: { name: "inr", symbol: "₹" },
 };
+
+export const currencyFor = (code) =>
+  CURRENCIES[code] || { name: code, symbol: code.toUpperCase() };

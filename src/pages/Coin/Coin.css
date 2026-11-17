@@ -81,3 +81,23 @@
 .coin-error a{
   color: #a77bff;
 }
+
+.coin-actions{
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.coin-action-link{
+  padding: 8px 18px;
+  border: 1px solid #5f5d5f;
+  border-radius: 20px;
+  font-size: 14px;
+  color: #ddd;
+}
+
+.coin-action-link:hover{
+  border-color: #a77bff;
+}
