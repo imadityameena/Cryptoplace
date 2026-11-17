@@ -23,6 +23,15 @@ To start a local MongoDB with Docker:
 docker run -d --name cryptoplace-mongo -p 27017:27017 mongo:7
 ```
 
+### Running with Docker Compose
+
+Starts the API together with a MongoDB container:
+
+```bash
+cp .env.example .env   # set JWT_SECRET and COINGECKO_API_KEY
+docker compose up --build
+```
+
 ### Environment variables
 
 | Variable | Description | Default |
