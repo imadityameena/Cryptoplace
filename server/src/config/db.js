@@ -1,14 +1,5 @@
-import mongoose from "mongoose";
+import mongoose from "./mongoose.js";
 import env from "./env.js";
-
-mongoose.set("toJSON", {
-  versionKey: false,
-  transform: (doc, ret) => {
-    ret.id = ret._id;
-    delete ret._id;
-    return ret;
-  },
-});
 
 export const connectDB = async () => {
   try {
