@@ -88,3 +88,9 @@ export const getSimplePrice = ({ ids, currencies }) =>
 export const searchCoins = (query) => request("/search", { query }, 600);
 
 export const getTrending = () => request("/search/trending", {}, 600);
+
+export const assertCoinExists = async (id) => {
+  const [coin] = await getMarkets({ currency: "usd", ids: id, perPage: 1, page: 1 });
+  if (!coin) throw ApiError.notFound(`Coin '${id}' not found`);
+  return coin;
+};

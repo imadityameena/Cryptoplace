@@ -1,16 +1,7 @@
 import * as coingecko from "../services/coingecko.service.js";
 import ApiError from "../utils/ApiError.js";
-import { SUPPORTED_CURRENCIES, DEFAULT_CURRENCY } from "../utils/constants.js";
-
-const parseCurrency = (value) => {
-  const currency = (value || DEFAULT_CURRENCY).toLowerCase();
-  if (!SUPPORTED_CURRENCIES.includes(currency)) {
-    throw ApiError.badRequest(
-      `Unsupported currency. Use one of: ${SUPPORTED_CURRENCIES.join(", ")}`
-    );
-  }
-  return currency;
-};
+import { SUPPORTED_CURRENCIES } from "../utils/constants.js";
+import { resolveCurrency as parseCurrency } from "../utils/currency.js";
 
 const parseIntInRange = (value, fallback, min, max) => {
   const n = Number.parseInt(value, 10);

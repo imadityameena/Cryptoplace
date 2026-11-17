@@ -1,4 +1,5 @@
 import User from "../models/User.js";
+import WatchlistItem from "../models/WatchlistItem.js";
 import ApiError from "../utils/ApiError.js";
 import { signToken } from "../utils/token.js";
 
@@ -59,6 +60,7 @@ export const changePassword = async (req, res) => {
 };
 
 export const deleteMe = async (req, res) => {
+  await WatchlistItem.deleteMany({ user: req.user._id });
   await User.findByIdAndDelete(req.user._id);
   res.status(204).end();
 };
