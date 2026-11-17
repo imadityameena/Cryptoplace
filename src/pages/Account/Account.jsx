@@ -50,12 +50,19 @@ const Account = () => {
     }, "Profile updated");
   };
 
+  const hasPassword = user.hasPassword !== false;
+
   const passwordHandler = async (event) => {
     event.preventDefault();
-    const ok = await runPassword(async () => {
-      if (passwords.next !== passwords.confirm) throw new Error("New passwords do not match");
-      await changePassword(passwords.current, passwords.next);
-    }, "Password changed. Other devices have been signed out.");
+    const ok = await runPassword(
+      async () => {
+        if (passwords.next !== passwords.confirm) throw new Error("New passwords do not match");
+        await changePassword(hasPassword ? passwords.current : undefined, passwords.next);
+      },
+      hasPassword
+        ? "Password changed. Other devices have been signed out."
+        : "Password set. You can now also log in with your email and password."
+    );
     if (ok) setPasswords({ current: "", next: "", confirm: "" });
   };
 
@@ -116,21 +123,28 @@ const Account = () => {
       </form>
 
       <form className="panel content-width" onSubmit={passwordHandler}>
-        <h3>Change password</h3>
+        <h3>{hasPassword ? "Change password" : "Set a password"}</h3>
+        {!hasPassword && (
+          <p className="panel-text">
+            You signed up with Google. Set a password to also log in with your email.
+          </p>
+        )}
         {passwordStatus.error && <p className="form-error">{passwordStatus.error}</p>}
         {passwordStatus.success && <p className="form-success">{passwordStatus.success}</p>}
         <div className="form-grid">
-          <div className="form-field span-2">
-            <label htmlFor="acc-current">Current password</label>
-            <input
-              id="acc-current"
-              type="password"
-              autoComplete="current-password"
-              value={passwords.current}
-              onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
-              required
-            />
-          </div>
+          {hasPassword && (
+            <div className="form-field span-2">
+              <label htmlFor="acc-current">Current password</label>
+              <input
+                id="acc-current"
+                type="password"
+                autoComplete="current-password"
+                value={passwords.current}
+                onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
+                required
+              />
+            </div>
+          )}
           <div className="form-field">
             <label htmlFor="acc-new">New password</label>
             <input
@@ -158,7 +172,7 @@ const Account = () => {
         <span className="form-hint">At least 8 characters, with a letter and a number.</span>
         <div className="form-actions">
           <button className="btn-primary" type="submit" disabled={passwordStatus.saving}>
-            {passwordStatus.saving ? "Updating..." : "Update password"}
+            {passwordStatus.saving ? "Saving..." : hasPassword ? "Update password" : "Set password"}
           </button>
         </div>
       </form>
