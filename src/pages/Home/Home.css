@@ -73,6 +73,12 @@
   text-align: right;
 }
 
+.table-message{
+  padding: 30px 20px;
+  text-align: center;
+  color: #c9c9c9;
+}
+
 .table-layout:last-child{
   border: none;
 }

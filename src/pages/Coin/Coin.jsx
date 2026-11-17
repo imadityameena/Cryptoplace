@@ -1,8 +1,9 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Coin.css";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { CoinContext } from "../../context/CoinContext";
 import LineChart from "../../components/LineChart/LineChart";
+import api from "../../api/client";
 
 const Coin = () => {
   const { coinId } = useParams();
@@ -10,43 +11,38 @@ const Coin = () => {
   const [historicalData, setHistoricalData] = useState();
   const { currency } = useContext(CoinContext);
 
-  const fetchCoinData = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        "x-cg-demo-api-key": "CG-qAfMCXwuTbw8YwSoM8U3W8Gh",
-      },
-    };
-
-    fetch(`https://api.coingecko.com/api/v3/coins/${coinId}`, options)
-      .then((res) => res.json())
-      .then((res) => setCoinData(res))
-      .catch((err) => console.error(err));
-  };
-
-  const fetchHistoricalData = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        "x-cg-demo-api-key": "CG-qAfMCXwuTbw8YwSoM8U3W8Gh",
-      },
-    };
-
-    fetch(
-      `https://api.coingecko.com/api/v3/coins/${coinId}/market_chart?vs_currency=${currency.name}&days=10&interval=daily`,
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => setHistoricalData(res))
-      .catch((err) => console.error(err));
-  };
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    fetchCoinData();
-    fetchHistoricalData();
-  }, [currency]);
+    const controller = new AbortController();
+    const { signal } = controller;
+
+    const load = async () => {
+      setError("");
+      try {
+        const [coinRes, chartRes] = await Promise.all([
+          api.get(`/market/coins/${coinId}`, { signal }),
+          api.get(`/market/coins/${coinId}/chart?vs_currency=${currency.name}&days=10`, { signal }),
+        ]);
+        setCoinData(coinRes.data);
+        setHistoricalData(chartRes.data);
+      } catch (err) {
+        if (err.name !== "AbortError") setError(err.message);
+      }
+    };
+
+    load();
+    return () => controller.abort();
+  }, [coinId, currency]);
+
+  if (error) {
+    return (
+      <div className="coin-error">
+        <p>{error}</p>
+        <Link to="/">Back to home</Link>
+      </div>
+    );
+  }
 
   return coinData && historicalData ? (
     <div className="coin">

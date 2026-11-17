@@ -1,10 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "./Home.css";
 import { CoinContext } from "../../context/CoinContext";
 import { Link } from "react-router-dom";
 
 const Home = () => {
-  const { allCoin, currency } = useContext(CoinContext);
+  const { allCoin, loading, error, currency } = useContext(CoinContext);
   const [displayCoin, setDisplayCoin] = useState([]);
   const [input, setInput] = useState('');
 
@@ -56,7 +56,12 @@ const Home = () => {
           <p style={{ textAlign: "center" }}>24H Change</p>
           <p className="market-cap">Market Cap</p>
         </div>
-        {displayCoin.slice(0,10).map((item, i) => (
+        {loading && <p className="table-message">Loading coins...</p>}
+        {!loading && error && <p className="table-message">{error}</p>}
+        {!loading && !error && displayCoin.length === 0 && (
+          <p className="table-message">No coins found</p>
+        )}
+        {!loading && displayCoin.slice(0,10).map((item, i) => (
           <Link to={`/coin/${item.id}`} className="table-layout" key={i}>
           <p>{item.market_cap_rank}</p>
           <div>

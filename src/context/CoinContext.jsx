@@ -1,37 +1,38 @@
 import { createContext, useEffect, useState } from "react";
+import api from "../api/client";
+import { CURRENCIES } from "../constants";
 
 export const CoinContext = createContext();
 
 const CoinContextProvider = (props) => {
   const [allCoin, setAllCoin] = useState([]);
-  const [currency, setCurrency] = useState({
-    name: "usd",
-    symbol: "$",
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  const [currency, setCurrency] = useState(CURRENCIES.usd);
 
-  const fetchAllCoin = async () => {
-    const options = {
-      method: "GET",
-      headers: {
-        accept: "application/json",
-        "x-cg-demo-api-key": "CG-qAfMCXwuTbw8YwSoM8U3W8Gh",
-      },
+  useEffect(() => {
+    const controller = new AbortController();
+
+    const fetchAllCoin = async () => {
+      setLoading(true);
+      setError("");
+      try {
+        const res = await api.get(`/market/coins?vs_currency=${currency.name}`, {
+          signal: controller.signal,
+        });
+        setAllCoin(res.data);
+      } catch (err) {
+        if (err.name !== "AbortError") setError(err.message);
+      } finally {
+        if (!controller.signal.aborted) setLoading(false);
+      }
     };
 
-    fetch(
-      `https://api.coingecko.com/api/v3/coins/markets?vs_currency=${currency.name}`,
-      options
-    )
-      .then((res) => res.json())
-      .then((res) => setAllCoin(res))
-      .catch((err) => console.error(err));
-  };
-
-  useEffect(()=>{
     fetchAllCoin();
-  },[currency])
+    return () => controller.abort();
+  }, [currency]);
 
-  const contextValue = {allCoin, currency, setCurrency};
+  const contextValue = { allCoin, loading, error, currency, setCurrency };
 
   return (
     <CoinContext.Provider value={contextValue}>
