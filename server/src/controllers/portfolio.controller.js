@@ -1,4 +1,3 @@
-import { matchedData } from "express-validator";
 import Transaction from "../models/Transaction.js";
 import * as coingecko from "../services/coingecko.service.js";
 import { assertNoOversell, buildHoldings, summarize } from "../services/portfolio.service.js";
@@ -35,7 +34,9 @@ export const getPortfolio = async (req, res) => {
 };
 
 export const listTransactions = async (req, res) => {
-  const { page = 1, limit = 20, coinId } = matchedData(req, { locations: ["query"] });
+  const page = Number(req.query.page) || 1;
+  const limit = Number(req.query.limit) || 20;
+  const coinId = req.query.coinId?.trim().toLowerCase();
   const filter = { user: req.user._id };
   if (coinId) filter.coinId = coinId;
 
