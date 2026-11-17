@@ -35,7 +35,7 @@ const Home = () => {
           Crypto Marketplace
         </h1>
         <p>
-          Welcome to the world's largest cryptocurrency marketplace.Sign up to
+          Welcome to the world's largest cryptocurrency marketplace. Sign up to
           explore more about cryptos.
         </p>
         <form onSubmit={searchHandler}>

@@ -80,3 +80,22 @@
     width: 12px;
   }
 }
+.navbar ul a.active li{
+  color: #a77bff;
+}
+
+.nav-user{
+  font-size: 15px;
+  color: #ddd;
+}
+
+.nav-login{
+  font-size: 15px;
+  color: #ddd;
+}
+
+@media(max-width: 500px){
+  .nav-user{
+    display: none;
+  }
+}

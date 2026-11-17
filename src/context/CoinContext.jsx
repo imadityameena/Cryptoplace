@@ -1,6 +1,7 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import api from "../api/client";
 import { CURRENCIES } from "../constants";
+import { AuthContext } from "./AuthContext";
 
 export const CoinContext = createContext();
 
@@ -9,6 +10,14 @@ const CoinContextProvider = (props) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [currency, setCurrency] = useState(CURRENCIES.usd);
+  const { user } = useContext(AuthContext);
+  const preferredCurrency = user?.preferredCurrency;
+
+  useEffect(() => {
+    if (preferredCurrency && CURRENCIES[preferredCurrency]) {
+      setCurrency(CURRENCIES[preferredCurrency]);
+    }
+  }, [preferredCurrency]);
 
   useEffect(() => {
     const controller = new AbortController();
