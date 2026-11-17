@@ -53,7 +53,7 @@ export const changePassword = async (req, res) => {
 
   const user = await User.findById(req.user._id).select("+password +tokenVersion");
   if (!(await user.comparePassword(currentPassword))) {
-    throw ApiError.unauthorized("Current password is incorrect");
+    throw ApiError.badRequest("Current password is incorrect");
   }
 
   user.password = newPassword;

@@ -61,6 +61,16 @@ describe("Auth", () => {
     assert.equal(res.body.user.preferredCurrency, "inr");
   });
 
+  it("rejects a wrong current password without ending the session", async () => {
+    const { body } = await request.post("/api/auth/register").send(valid);
+    await request
+      .patch("/api/auth/password")
+      .set("Authorization", `Bearer ${body.token}`)
+      .send({ currentPassword: "wrongpass1", newPassword: "newpass456" })
+      .expect(400);
+    await request.get("/api/auth/me").set("Authorization", `Bearer ${body.token}`).expect(200);
+  });
+
   it("invalidates old tokens after a password change", async () => {
     const { body } = await request.post("/api/auth/register").send(valid);
     const res = await request
