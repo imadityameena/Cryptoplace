@@ -1,6 +1,4 @@
-
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap');
-
 
 *{
   padding: 0;
@@ -9,14 +7,84 @@
   font-family: "Outfit", sans-serif;
 }
 
+html{
+  color-scheme: dark;
+}
+
+body{
+  background: #0b004e;
+  color: white;
+}
+
 a{
   text-decoration: none;
   color: inherit;
 }
 
+button, input, select{
+  font: inherit;
+}
+
+:focus-visible{
+  outline: 2px solid #a77bff;
+  outline-offset: 2px;
+}
+
 .app{
   min-height: 100vh;
+  display: flex;
+  flex-direction: column;
   color: white;
   background: linear-gradient(#0b004e, #1d152f, #002834);
 }
 
+.app > main{
+  flex: 1;
+}
+
+.green{
+  color: #00d515;
+}
+
+.red{
+  color: #ff4646;
+}
+
+.spinner{
+  display: grid;
+  place-items: center;
+  min-height: 70vh;
+}
+
+.spinner.small{
+  min-height: 0;
+  height: 100%;
+}
+
+.spin{
+  width: 65px;
+  height: 65px;
+  border: 5px solid #bdbdbd;
+  border-top-color: #4500c6;
+  border-radius: 50%;
+  animation: rotate 1s linear infinite;
+}
+
+.spinner.small .spin{
+  width: 36px;
+  height: 36px;
+  border-width: 4px;
+}
+
+@keyframes rotate {
+  100%{
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  *{
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}

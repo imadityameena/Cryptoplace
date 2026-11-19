@@ -1,14 +1,21 @@
 .navbar{
-  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 20;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 20px 10%;
+  gap: 16px;
+  padding: 18px 10%;
   color: #ddd;
   border-bottom: 2px solid #3c3c3c;
+  background: rgba(11, 0, 78, 0.85);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 .navbar .logo{
+  display: block;
   width: max(12vw, 120px);
 }
 
@@ -18,8 +25,14 @@
   list-style: none;
 }
 
-.navbar li{
-  cursor: pointer;
+.navbar ul a{
+  display: block;
+  transition: color 0.15s;
+}
+
+.navbar ul a:hover,
+.navbar ul a.active{
+  color: #a77bff;
 }
 
 .nav-right{
@@ -34,6 +47,7 @@
   border: 2px solid white;
   background: transparent;
   color: white;
+  cursor: pointer;
 }
 
 .navbar option{
@@ -41,7 +55,7 @@
   color: white;
 }
 
-.navbar button{
+.nav-cta{
   display: flex;
   align-items: center;
   gap: 10px;
@@ -53,103 +67,31 @@
   background: white;
   border: none;
   cursor: pointer;
+  white-space: nowrap;
 }
 
-.navbar button img{
+.nav-cta:hover{
+  background: #e9e1ff;
+}
+
+.nav-cta img{
   width: 13px;
 }
 
-@media(max-width: 900px){
-  .navbar{
-    padding: 20px 8%;
-  }
-  .navbar button{
-    gap: 8px;
-    padding: 8px 18px;
-    font-size: 14px;
-  }
-}
-
-.navbar .menu-toggle,
-.navbar .mobile-only{
-  display: none;
-}
-
-@media(max-width: 768px){
-  .navbar{
-    padding: 20px 5%;
-  }
-  .navbar ul{
-    display: none;
-  }
-  .navbar ul.open{
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    z-index: 10;
-    background: #120a3a;
-    border-bottom: 2px solid #3c3c3c;
-  }
-  .navbar ul.open li{
-    padding: 14px 5%;
-    border-top: 1px solid #2a2350;
-  }
-  .navbar .mobile-only{
-    display: block;
-  }
-  .navbar .menu-toggle{
-    position: relative;
-    display: flex;
-    padding: 8px 12px;
-    border-radius: 6px;
-    background: transparent;
-    border: 1px solid #5f5d5f;
-    color: white;
-    font-size: 16px;
-  }
-  .menu-dot{
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    width: 8px;
-    height: 8px;
-    border-radius: 50%;
-    background: #ffc531;
-  }
-  .navbar button img{
-    width: 12px;
-  }
-}
-.navbar ul a.active li{
-  color: #a77bff;
-}
-
-.nav-user{
-  font-size: 15px;
-  color: #ddd;
-}
-
-.nav-user:hover{
-  color: #a77bff;
-}
-
+.nav-user,
 .nav-login{
   font-size: 15px;
   color: #ddd;
+  white-space: nowrap;
 }
 
-@media(max-width: 500px){
-  .nav-user{
-    display: none;
-  }
+.nav-user:hover,
+.nav-login:hover{
+  color: #a77bff;
 }
 
 .nav-alerts{
-  display: flex;
+  display: flex !important;
   align-items: center;
   gap: 6px;
 }
@@ -166,4 +108,97 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
+}
+
+.navbar .menu-toggle,
+.navbar .mobile-only{
+  display: none;
+}
+
+@media(max-width: 900px){
+  .navbar{
+    padding: 18px 8%;
+  }
+  .navbar ul{
+    gap: 28px;
+  }
+  .nav-cta{
+    gap: 8px;
+    padding: 8px 18px;
+    font-size: 14px;
+  }
+}
+
+@media(max-width: 768px){
+  .navbar{
+    padding: 16px 5%;
+  }
+  .navbar ul{
+    display: none;
+  }
+  .navbar ul.open{
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: #120a3a;
+    border-bottom: 2px solid #3c3c3c;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+  }
+  .navbar ul.open li{
+    border-top: 1px solid #2a2350;
+  }
+  .navbar ul.open a{
+    padding: 14px 5%;
+  }
+  .navbar .mobile-only{
+    display: block;
+  }
+  .navbar .menu-toggle{
+    position: relative;
+    display: flex;
+    padding: 6px 11px;
+    border-radius: 6px;
+    background: transparent;
+    border: 1px solid #5f5d5f;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .menu-dot{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: #ffc531;
+  }
+  .nav-cta img{
+    width: 12px;
+  }
+}
+
+@media(max-width: 500px){
+  .navbar{
+    padding: 14px 16px;
+    gap: 10px;
+  }
+  .navbar .logo{
+    width: 100px;
+  }
+  .nav-right{
+    gap: 8px;
+  }
+  .nav-user,
+  .nav-login,
+  .nav-cta img{
+    display: none;
+  }
+  .nav-cta{
+    padding: 7px 14px;
+  }
 }

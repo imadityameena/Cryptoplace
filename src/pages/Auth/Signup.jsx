@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import usePageTitle from "../../hooks/usePageTitle";
 import "./Auth.css";
 
 const Signup = () => {
@@ -12,6 +14,7 @@ const Signup = () => {
   const [form, setForm] = useState({ name: "", email: "", password: "", confirm: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  usePageTitle("Sign up");
 
   if (user) return <Navigate to={redirectTo} replace />;
 
@@ -71,10 +74,9 @@ const Signup = () => {
           </div>
           <div className="form-field">
             <label htmlFor="password">Password</label>
-            <input
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
               autoComplete="new-password"
               minLength={8}
               value={form.password}
@@ -85,10 +87,9 @@ const Signup = () => {
           </div>
           <div className="form-field">
             <label htmlFor="confirm">Confirm password</label>
-            <input
+            <PasswordInput
               id="confirm"
               name="confirm"
-              type="password"
               autoComplete="new-password"
               value={form.confirm}
               onChange={changeHandler}

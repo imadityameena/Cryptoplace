@@ -3,8 +3,8 @@ import { Link } from "react-router-dom";
 import api from "../../api/client";
 import { CoinContext } from "../../context/CoinContext";
 import { WatchlistContext } from "../../context/WatchlistContext";
-import WatchButton from "../../components/WatchButton/WatchButton";
-import { formatMoney, formatPercent } from "../../utils/format";
+import CoinRow, { CoinTableHeader } from "../../components/CoinRow/CoinRow";
+import usePageTitle from "../../hooks/usePageTitle";
 import "../Home/Home.css";
 import "./Watchlist.css";
 
@@ -14,6 +14,7 @@ const Watchlist = () => {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  usePageTitle("Watchlist");
 
   useEffect(() => {
     const controller = new AbortController();
@@ -36,13 +37,7 @@ const Watchlist = () => {
         <p>Coins you are keeping an eye on.</p>
       </div>
       <div className="crypto-table">
-        <div className="table-layout">
-          <p>#</p>
-          <p>Coins</p>
-          <p>Price</p>
-          <p style={{ textAlign: "center" }}>24H Change</p>
-          <p className="market-cap">Market Cap</p>
-        </div>
+        <CoinTableHeader />
         {loading && <p className="table-message">Loading watchlist...</p>}
         {!loading && error && <p className="table-message">{error}</p>}
         {!loading && !error && visible.length === 0 && (
@@ -55,21 +50,7 @@ const Watchlist = () => {
         )}
         {!loading &&
           visible.map(({ coinId, market }) => (
-            <Link to={`/coin/${coinId}`} className="table-layout" key={coinId}>
-              <div className="rank-cell">
-                <WatchButton coinId={coinId} size={18} />
-                <p>{market?.market_cap_rank ?? "-"}</p>
-              </div>
-              <div>
-                {market && <img src={market.image} alt="" />}
-                <p>{market ? `${market.name} - ${market.symbol}` : coinId}</p>
-              </div>
-              <p>{market ? formatMoney(market.current_price, currency) : "-"}</p>
-              <p className={market?.price_change_percentage_24h > 0 ? "green" : "red"}>
-                {market ? formatPercent(market.price_change_percentage_24h) : "-"}
-              </p>
-              <p className="market-cap">{market ? formatMoney(market.market_cap, currency) : "-"}</p>
-            </Link>
+            <CoinRow key={coinId} coinId={coinId} market={market} currency={currency} />
           ))}
       </div>
     </div>

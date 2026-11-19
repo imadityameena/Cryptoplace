@@ -4,6 +4,8 @@ import api from "../../api/client";
 import { AuthContext } from "../../context/AuthContext";
 import { CoinContext } from "../../context/CoinContext";
 import { CURRENCIES } from "../../constants";
+import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import usePageTitle from "../../hooks/usePageTitle";
 import "../Auth/Auth.css";
 import "../Watchlist/Watchlist.css";
 import "../Portfolio/Portfolio.css";
@@ -29,6 +31,7 @@ const Account = () => {
   const { user, updateProfile, changePassword, logout } = useContext(AuthContext);
   const { setCurrency } = useContext(CoinContext);
   const navigate = useNavigate();
+  usePageTitle("Account");
 
   const [profile, setProfile] = useState({
     name: user.name,
@@ -122,9 +125,8 @@ const Account = () => {
         <div className="form-grid">
           <div className="form-field span-2">
             <label htmlFor="acc-current">Current password</label>
-            <input
+            <PasswordInput
               id="acc-current"
-              type="password"
               autoComplete="current-password"
               value={passwords.current}
               onChange={(e) => setPasswords({ ...passwords, current: e.target.value })}
@@ -133,9 +135,8 @@ const Account = () => {
           </div>
           <div className="form-field">
             <label htmlFor="acc-new">New password</label>
-            <input
+            <PasswordInput
               id="acc-new"
-              type="password"
               autoComplete="new-password"
               minLength={8}
               value={passwords.next}
@@ -145,9 +146,8 @@ const Account = () => {
           </div>
           <div className="form-field">
             <label htmlFor="acc-confirm">Confirm new password</label>
-            <input
+            <PasswordInput
               id="acc-confirm"
-              type="password"
               autoComplete="new-password"
               value={passwords.confirm}
               onChange={(e) => setPasswords({ ...passwords, confirm: e.target.value })}

@@ -1,34 +1,47 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useMemo, useState } from "react";
 import "./Home.css";
 import { CoinContext } from "../../context/CoinContext";
-import { Link } from "react-router-dom";
-import WatchButton from "../../components/WatchButton/WatchButton";
 import { AuthContext } from "../../context/AuthContext";
+import CoinRow, { CoinTableHeader } from "../../components/CoinRow/CoinRow";
+import usePageTitle from "../../hooks/usePageTitle";
+
+const PAGE_SIZE = 10;
 
 const Home = () => {
-  const { allCoin, loading, error, currency } = useContext(CoinContext);
+  const { allCoin, loading, error, reload, lastUpdated, currency } = useContext(CoinContext);
   const { user } = useContext(AuthContext);
-  const [displayCoin, setDisplayCoin] = useState([]);
-  const [input, setInput] = useState('');
+  const [input, setInput] = useState("");
+  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
+  usePageTitle("Live crypto prices");
+
+  const query = input.trim().toLowerCase();
+  const displayCoin = useMemo(
+    () =>
+      query
+        ? allCoin.filter(
+            (item) =>
+              item.name.toLowerCase().includes(query) || item.symbol.toLowerCase().includes(query)
+          )
+        : allCoin,
+    [allCoin, query]
+  );
 
   const inputHandler = (event) => {
     setInput(event.target.value);
-    if(event.target.value==""){
-      setDisplayCoin(allCoin);
-    }
-  }
+    setVisibleCount(PAGE_SIZE);
+  };
 
-    const searchHandler = async (event) => {
+  const clearSearch = () => {
+    setInput("");
+    setVisibleCount(PAGE_SIZE);
+  };
+
+  // Results filter as you type, so submitting only needs to keep the page from reloading
+  const searchHandler = (event) => {
     event.preventDefault();
-    const coins= await allCoin.filter((item)=>{
-      return item.name.toLowerCase().includes(input.toLowerCase())
-    })
-    setDisplayCoin(coins)
-  }
+  };
 
-  useEffect(() => {
-    setDisplayCoin(allCoin);
-  }, [allCoin]);
+  const shown = displayCoin.slice(0, visibleCount);
 
   return (
     <div className="home">
@@ -42,46 +55,62 @@ const Home = () => {
             ? "Welcome back. Star coins to watch them, track your portfolio and set price alerts."
             : "Welcome to the world's largest cryptocurrency marketplace. Sign up to explore more about cryptos."}
         </p>
-        <form onSubmit={searchHandler}>
-          <input onChange={inputHandler} list="coinlist" value={input} type="text" placeholder="Search crypto..." required />
+        <form onSubmit={searchHandler} role="search">
+          <input
+            onChange={inputHandler}
+            list="coinlist"
+            value={input}
+            type="search"
+            placeholder="Search by name or symbol..."
+            aria-label="Search coins"
+          />
           <datalist id="coinlist">
-            {allCoin.map((item,i)=>(
-              <option key={i} value={item.name}/>
+            {allCoin.map((item) => (
+              <option key={item.id} value={item.name} />
             ))}
           </datalist>
-          <button type="submit">Search</button>
+          {input && (
+            <button type="button" className="clear-search" onClick={clearSearch}>
+              Clear
+            </button>
+          )}
         </form>
       </div>
+
       <div className="crypto-table">
-        <div className="table-layout">
-          <p>#</p>
-          <p>Coins</p>
-          <p>Price</p>
-          <p style={{ textAlign: "center" }}>24H Change</p>
-          <p className="market-cap">Market Cap</p>
-        </div>
+        <CoinTableHeader />
         {loading && <p className="table-message">Loading coins...</p>}
-        {!loading && error && <p className="table-message">{error}</p>}
-        {!loading && !error && displayCoin.length === 0 && (
-          <p className="table-message">No coins found</p>
+        {!loading && error && (
+          <div className="table-message">
+            <p>{error}</p>
+            <button className="retry-button" onClick={reload}>
+              Try again
+            </button>
+          </div>
         )}
-        {!loading && displayCoin.slice(0,10).map((item) => (
-          <Link to={`/coin/${item.id}`} className="table-layout" key={item.id}>
-          <div className="rank-cell">
-            <WatchButton coinId={item.id} size={18} />
-            <p>{item.market_cap_rank}</p>
-          </div>
-          <div>
-            <img src={item.image} alt="" />
-            <p>{item.name + "- " + item.symbol}</p>
-          </div>
-          <p>{currency.symbol} {item.current_price.toLocaleString()}</p>
-          <p className={item.price_change_percentage_24h >0 ? "green" : "red"}
-          >{Math.floor(item.price_change_percentage_24h*100)/100}</p>
-          <p className="market-cap">{currency.symbol} {item.market_cap.toLocaleString()}</p>
-        </Link>
-        ))}
+        {!loading && !error && displayCoin.length === 0 && (
+          <p className="table-message">No coins match "{input.trim()}"</p>
+        )}
+        {!loading &&
+          !error &&
+          shown.map((item) => (
+            <CoinRow key={item.id} coinId={item.id} market={item} currency={currency} />
+          ))}
       </div>
+
+      {!loading && !error && (
+        <div className="table-footer">
+          {displayCoin.length > visibleCount && (
+            <button className="show-more" onClick={() => setVisibleCount((n) => n + PAGE_SIZE * 2)}>
+              Show more
+            </button>
+          )}
+          <p>
+            Showing {shown.length} of {displayCoin.length} coins
+            {lastUpdated && ` · Updated ${lastUpdated.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}`}
+          </p>
+        </div>
+      )}
     </div>
   );
 };

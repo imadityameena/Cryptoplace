@@ -12,22 +12,26 @@ import Alerts from './pages/Alerts/Alerts';
 import Account from './pages/Account/Account';
 import NotFound from './pages/NotFound/NotFound';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import ScrollToTop from './components/ScrollToTop/ScrollToTop';
 
 const App = () => {
   return (
     <div className='app'>
+      <ScrollToTop/>
       <Navbar/>
-      <Routes>
-        <Route path='/' element={<Home/>}></Route>
-        <Route path='/coin/:coinId' element={<Coin/>}></Route>
-        <Route path='/login' element={<Login/>}></Route>
-        <Route path='/signup' element={<Signup/>}></Route>
-        <Route path='/watchlist' element={<ProtectedRoute><Watchlist/></ProtectedRoute>}></Route>
-        <Route path='/portfolio' element={<ProtectedRoute><Portfolio/></ProtectedRoute>}></Route>
-        <Route path='/alerts' element={<ProtectedRoute><Alerts/></ProtectedRoute>}></Route>
-        <Route path='/account' element={<ProtectedRoute><Account/></ProtectedRoute>}></Route>
-        <Route path='*' element={<NotFound/>}></Route>
-      </Routes>
+      <main>
+        <Routes>
+          <Route path='/' element={<Home/>}></Route>
+          <Route path='/coin/:coinId' element={<Coin/>}></Route>
+          <Route path='/login' element={<Login/>}></Route>
+          <Route path='/signup' element={<Signup/>}></Route>
+          <Route path='/watchlist' element={<ProtectedRoute><Watchlist/></ProtectedRoute>}></Route>
+          <Route path='/portfolio' element={<ProtectedRoute><Portfolio/></ProtectedRoute>}></Route>
+          <Route path='/alerts' element={<ProtectedRoute><Alerts/></ProtectedRoute>}></Route>
+          <Route path='/account' element={<ProtectedRoute><Account/></ProtectedRoute>}></Route>
+          <Route path='*' element={<NotFound/>}></Route>
+        </Routes>
+      </main>
       <Footer/>
     </div>
   )

@@ -1,6 +1,8 @@
 import { useContext, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
+import PasswordInput from "../../components/PasswordInput/PasswordInput";
+import usePageTitle from "../../hooks/usePageTitle";
 import "./Auth.css";
 
 const Login = () => {
@@ -12,6 +14,7 @@ const Login = () => {
   const [form, setForm] = useState({ email: "", password: "" });
   const [error, setError] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  usePageTitle("Log in");
 
   if (user) return <Navigate to={redirectTo} replace />;
 
@@ -53,10 +56,9 @@ const Login = () => {
           </div>
           <div className="form-field">
             <label htmlFor="password">Password</label>
-            <input
+            <PasswordInput
               id="password"
               name="password"
-              type="password"
               autoComplete="current-password"
               value={form.password}
               onChange={changeHandler}

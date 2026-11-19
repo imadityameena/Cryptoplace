@@ -7,6 +7,7 @@ import CoinContextProvider from "./context/CoinContext.jsx";
 import AuthContextProvider from "./context/AuthContext.jsx";
 import WatchlistContextProvider from "./context/WatchlistContext.jsx";
 import AlertsContextProvider from "./context/AlertsContext.jsx";
+import ToastContextProvider from "./context/ToastContext.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
@@ -15,7 +16,9 @@ createRoot(document.getElementById("root")).render(
         <CoinContextProvider>
           <WatchlistContextProvider>
             <AlertsContextProvider>
-              <App />
+              <ToastContextProvider>
+                <App />
+              </ToastContextProvider>
             </AlertsContextProvider>
           </WatchlistContextProvider>
         </CoinContextProvider>

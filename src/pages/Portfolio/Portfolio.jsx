@@ -3,7 +3,9 @@ import { Link, useSearchParams } from "react-router-dom";
 import api from "../../api/client";
 import { CoinContext } from "../../context/CoinContext";
 import { currencyFor } from "../../constants";
-import { formatMoney, formatPercent, formatQuantity } from "../../utils/format";
+import { changeClass, formatChange, formatMoney, formatPercent, formatQuantity } from "../../utils/format";
+import { ToastContext } from "../../context/ToastContext";
+import usePageTitle from "../../hooks/usePageTitle";
 import TransactionForm from "./TransactionForm";
 import "../Auth/Auth.css";
 import "../Watchlist/Watchlist.css";
@@ -11,10 +13,10 @@ import "./Portfolio.css";
 
 const PAGE_SIZE = 10;
 
-const pnlClass = (value) => (value > 0 ? "green" : value < 0 ? "red" : "");
-
 const Portfolio = () => {
-  const { currency } = useContext(CoinContext);
+  const { currency, allCoin } = useContext(CoinContext);
+  const { notify } = useContext(ToastContext);
+  usePageTitle("Portfolio");
   const [searchParams, setSearchParams] = useSearchParams();
   const prefillCoin = searchParams.get("add");
 
@@ -56,10 +58,11 @@ const Portfolio = () => {
     closeForm();
     setPage(1);
     refresh();
+    notify("Transaction saved", "success");
   };
 
   const deleteHandler = async (tx) => {
-    if (!window.confirm(`Delete this ${tx.type} of ${formatQuantity(tx.quantity)} ${tx.coinId}?`)) {
+    if (!window.confirm(`Delete this ${tx.type} of ${formatQuantity(tx.quantity)} ${coinName(tx.coinId)}?`)) {
       return;
     }
     try {
@@ -67,7 +70,7 @@ const Portfolio = () => {
       if (transactions.length === 1 && page > 1) setPage(page - 1);
       refresh();
     } catch (err) {
-      alert(err.message);
+      notify(err.message);
     }
   };
 
@@ -80,6 +83,7 @@ const Portfolio = () => {
   }
 
   const totals = summary?.totals;
+  const coinName = (id) => allCoin.find((c) => c.id === id)?.name ?? id;
   const openHoldings = summary?.holdings.filter((h) => h.quantity > 0) ?? [];
 
   return (
@@ -116,16 +120,16 @@ const Portfolio = () => {
           </div>
           <div className="stat-card">
             <span>Unrealized P/L</span>
-            <strong className={pnlClass(totals.unrealizedPnl)}>
+            <strong className={changeClass(totals.unrealizedPnl)}>
               {formatMoney(totals.unrealizedPnl, currency)}
             </strong>
-            <small className={pnlClass(totals.unrealizedPnl)}>
-              {formatPercent(totals.unrealizedPnlPercent)}
+            <small className={changeClass(totals.unrealizedPnl)}>
+              {formatChange(totals.unrealizedPnlPercent)}
             </small>
           </div>
           <div className="stat-card">
             <span>Realized P/L</span>
-            <strong className={pnlClass(totals.realizedPnl)}>
+            <strong className={changeClass(totals.realizedPnl)}>
               {formatMoney(totals.realizedPnl, currency)}
             </strong>
           </div>
@@ -161,9 +165,9 @@ const Portfolio = () => {
             </p>
             <p className="hide-sm">{formatMoney(h.averageCost, currency)}</p>
             <p>{formatMoney(h.value, currency)}</p>
-            <div className={`pnl-cell ${pnlClass(h.unrealizedPnl)}`}>
+            <div className={`pnl-cell ${changeClass(h.unrealizedPnl)}`}>
               <p>{formatMoney(h.unrealizedPnl, currency)}</p>
-              <small>{formatPercent(h.unrealizedPnlPercent)}</small>
+              <small>{formatChange(h.unrealizedPnlPercent)}</small>
             </div>
             <div className="hide-sm alloc-cell">
               <div className="alloc-bar">
@@ -195,7 +199,7 @@ const Portfolio = () => {
               <p>
                 <span className={`badge ${tx.type}`}>{tx.type}</span>
               </p>
-              <p className="tx-coin">{tx.coinId}</p>
+              <p className="tx-coin">{coinName(tx.coinId)}</p>
               <p>{formatQuantity(tx.quantity)}</p>
               <p className="hide-sm">{formatMoney(tx.pricePerCoin, txCurrency)}</p>
               <p>{formatMoney(tx.quantity * tx.pricePerCoin, txCurrency)}</p>

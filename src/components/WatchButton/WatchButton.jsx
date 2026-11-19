@@ -2,11 +2,13 @@ import { useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
 import { WatchlistContext } from "../../context/WatchlistContext";
+import { ToastContext } from "../../context/ToastContext";
 import "./WatchButton.css";
 
 const WatchButton = ({ coinId, size = 20, withLabel = false }) => {
   const { user } = useContext(AuthContext);
   const { isWatched, add, remove } = useContext(WatchlistContext);
+  const { notify } = useContext(ToastContext);
   const navigate = useNavigate();
   const location = useLocation();
   const watched = isWatched(coinId);
@@ -20,7 +22,7 @@ const WatchButton = ({ coinId, size = 20, withLabel = false }) => {
       return;
     }
 
-    (watched ? remove(coinId) : add(coinId)).catch((err) => alert(err.message));
+    (watched ? remove(coinId) : add(coinId)).catch((err) => notify(err.message));
   };
 
   const label = watched ? "Remove from watchlist" : "Add to watchlist";

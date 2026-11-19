@@ -1,6 +1,7 @@
 import { useContext, useState } from "react";
 import api from "../../api/client";
 import { CoinContext } from "../../context/CoinContext";
+import { formatMoney } from "../../utils/format";
 
 const AlertForm = ({ initialCoinId, onSaved, onCancel }) => {
   const { allCoin, currency } = useContext(CoinContext);
@@ -68,7 +69,7 @@ const AlertForm = ({ initialCoinId, onSaved, onCancel }) => {
           </select>
           {currentPrice !== "" && (
             <span className="form-hint">
-              Current price: {currency.symbol} {currentPrice.toLocaleString()}
+              Current price: {formatMoney(currentPrice, currency)}
             </span>
           )}
         </div>

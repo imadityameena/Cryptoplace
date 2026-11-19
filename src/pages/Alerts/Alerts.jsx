@@ -3,6 +3,8 @@ import { Link, useSearchParams } from "react-router-dom";
 import api from "../../api/client";
 import { CoinContext } from "../../context/CoinContext";
 import { AlertsContext } from "../../context/AlertsContext";
+import { ToastContext } from "../../context/ToastContext";
+import usePageTitle from "../../hooks/usePageTitle";
 import { currencyFor } from "../../constants";
 import { formatMoney } from "../../utils/format";
 import AlertForm from "./AlertForm";
@@ -21,6 +23,8 @@ const FILTERS = [
 const Alerts = () => {
   const { allCoin } = useContext(CoinContext);
   const { refreshTriggered } = useContext(AlertsContext);
+  const { notify } = useContext(ToastContext);
+  usePageTitle("Price alerts");
   const [searchParams, setSearchParams] = useSearchParams();
   const prefillCoin = searchParams.get("add");
 
@@ -55,7 +59,7 @@ const Alerts = () => {
       await action();
       refresh();
     } catch (err) {
-      alert(err.message);
+      notify(err.message);
     }
   };
 
@@ -91,6 +95,7 @@ const Alerts = () => {
             onSaved={() => {
               closeForm();
               refresh();
+              notify("Alert created", "success");
             }}
             onCancel={closeForm}
           />
