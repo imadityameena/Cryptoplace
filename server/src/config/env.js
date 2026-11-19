@@ -20,7 +20,6 @@ const env = {
   coingeckoApiKey: process.env.COINGECKO_API_KEY || "",
   coingeckoBaseUrl:
     process.env.COINGECKO_BASE_URL || "https://api.coingecko.com/api/v3",
-  googleClientId: process.env.GOOGLE_CLIENT_ID || "",
   cacheTtlSeconds: Number(process.env.CACHE_TTL_SECONDS) || 60,
   alertCheckIntervalSeconds: Number(process.env.ALERT_CHECK_INTERVAL_SECONDS) || 120,
 };

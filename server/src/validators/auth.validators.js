@@ -31,10 +31,6 @@ export const updateProfileRules = [
 ];
 
 export const changePasswordRules = [
-  body("currentPassword").optional().isString(),
+  body("currentPassword").notEmpty().withMessage("Current password is required"),
   passwordRule("newPassword"),
-];
-
-export const googleLoginRules = [
-  body("credential").isString().notEmpty().withMessage("Google credential is required"),
 ];

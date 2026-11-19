@@ -19,28 +19,9 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
-      required: [
-        function () {
-          return !this.googleId;
-        },
-        "Password is required",
-      ],
+      required: [true, "Password is required"],
       minlength: 8,
       select: false,
-    },
-    hasPassword: {
-      type: Boolean,
-      default: true,
-    },
-    googleId: {
-      type: String,
-      unique: true,
-      sparse: true,
-      select: false,
-    },
-    avatar: {
-      type: String,
-      trim: true,
     },
     preferredCurrency: {
       type: String,
@@ -57,14 +38,12 @@ const userSchema = new mongoose.Schema(
 );
 
 userSchema.pre("save", async function () {
-  if (!this.isModified("password") || !this.password) return;
+  if (!this.isModified("password")) return;
   this.password = await bcrypt.hash(this.password, 12);
-  this.hasPassword = true;
   if (!this.isNew) this.tokenVersion = (this.tokenVersion || 0) + 1;
 });
 
 userSchema.methods.comparePassword = function (candidate) {
-  if (!this.password) return Promise.resolve(false);
   return bcrypt.compare(candidate, this.password);
 };
 
@@ -75,7 +54,6 @@ userSchema.set("toJSON", {
     delete ret._id;
     delete ret.password;
     delete ret.tokenVersion;
-    delete ret.googleId;
     return ret;
   },
 });

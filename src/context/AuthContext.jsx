@@ -40,11 +40,6 @@ const AuthContextProvider = ({ children }) => {
     []
   );
 
-  const loginWithGoogle = useCallback(
-    (credential) => api.post("/auth/google", { credential }).then(handleAuth),
-    []
-  );
-
   const updateProfile = useCallback(async (changes) => {
     const res = await api.patch("/auth/me", changes);
     setUser(res.user);
@@ -58,17 +53,8 @@ const AuthContextProvider = ({ children }) => {
   );
 
   const value = useMemo(
-    () => ({
-      user,
-      initializing,
-      login,
-      register,
-      loginWithGoogle,
-      logout,
-      updateProfile,
-      changePassword,
-    }),
-    [user, initializing, login, register, loginWithGoogle, logout, updateProfile, changePassword]
+    () => ({ user, initializing, login, register, logout, updateProfile, changePassword }),
+    [user, initializing, login, register, logout, updateProfile, changePassword]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

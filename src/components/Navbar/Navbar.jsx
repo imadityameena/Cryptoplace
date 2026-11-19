@@ -65,15 +65,6 @@ const Navbar = () => {
         {user ? (
           <>
             <Link to='/account' className='nav-user' title='Account settings'>
-              {user.avatar && (
-                <img
-                  src={user.avatar}
-                  alt=''
-                  className='nav-avatar'
-                  referrerPolicy='no-referrer'
-                  onError={(e) => { e.currentTarget.style.display = 'none' }}
-                />
-              )}
               Hi, {user.name.split(' ')[0]}
             </Link>
             <button onClick={logoutHandler}>Log out</button>

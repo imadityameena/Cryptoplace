@@ -129,17 +129,8 @@
 }
 
 .nav-user{
-  display: flex;
-  align-items: center;
-  gap: 8px;
   font-size: 15px;
   color: #ddd;
-}
-
-.nav-avatar{
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
 }
 
 .nav-user:hover{

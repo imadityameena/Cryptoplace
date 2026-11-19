@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../context/AuthContext";
-import GoogleButton from "../../components/GoogleButton/GoogleButton";
 import "./Auth.css";
 
 const Login = () => {
@@ -39,11 +38,6 @@ const Login = () => {
         <h2>Welcome back</h2>
         <p className="auth-subtitle">Log in to track your coins and portfolio.</p>
         {error && <p className="form-error">{error}</p>}
-        <GoogleButton
-          text="signin_with"
-          onSuccess={() => navigate(redirectTo, { replace: true })}
-          onError={setError}
-        />
         <form onSubmit={submitHandler}>
           <div className="form-field">
             <label htmlFor="email">Email</label>
